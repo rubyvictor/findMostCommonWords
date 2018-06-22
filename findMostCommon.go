@@ -34,7 +34,8 @@ func rankByWordCount(wordFrequencies map[string]int) PairList {
 		i++
 	}
 	sort.Sort(sort.Reverse(pl))
-	return pl
+	slicedPl := pl[0:10]
+	return slicedPl
 }
 
 type Pair struct {
