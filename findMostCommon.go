@@ -69,7 +69,8 @@ func text(w http.ResponseWriter, r *http.Request) {
 	} else {
 		r.ParseForm()
 		if len(r.Form["text"][0]) == 0 {
-			fmt.Fprintf(w, "Please enter some text.")
+			// fmt.Fprintf(w, "Please enter some text.")
+			render(w,"form.gtpl","Please enter some text.")
 		} else {
 			for key, value := range r.Form {
 				fmt.Println("key", key)
