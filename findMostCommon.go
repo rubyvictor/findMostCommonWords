@@ -69,11 +69,14 @@ func text(w http.ResponseWriter, r *http.Request) {
 		t.Execute(w, nil)
 	} else {
 		r.ParseForm()
-
-		for key, value := range r.Form {
-			fmt.Println("key", key)
-			fmt.Println("val:", s.Join(value, ""))
-			fmt.Fprintf(w, "Top 10 Words:%v", rankByWordCount(countWords(getWordsFrom(s.Join(value, "")))))
+		if len(r.Form["text"][0]) == 0 {
+			fmt.Fprintf(w, "Please enter some text.")
+		} else {
+			for key, value := range r.Form {
+				fmt.Println("key", key)
+				fmt.Println("val:", s.Join(value, ""))
+				fmt.Fprintf(w, "Top 10 Words:%v", rankByWordCount(countWords(getWordsFrom(s.Join(value, "")))))
+			}
 		}
 	}
 
