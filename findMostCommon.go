@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"html/template"
+	"net/http"
 	"regexp"
 	"sort"
 	s "strings"
@@ -26,6 +28,10 @@ func consoleOut(orderedWordCounts PairList) {
 	}
 }
 
+func filterPairs(allPairs PairList) PairList {
+	return allPairs[0:10]
+}
+
 func rankByWordCount(wordFrequencies map[string]int) PairList {
 	pl := make(PairList, len(wordFrequencies))
 	i := 0
@@ -34,8 +40,7 @@ func rankByWordCount(wordFrequencies map[string]int) PairList {
 		i++
 	}
 	sort.Sort(pl)
-	slicedPl := pl[0:10]
-	return slicedPl
+	return filterPairs(pl)
 }
 
 type Pair struct {
@@ -48,6 +53,30 @@ type PairList []Pair
 func (p PairList) Len() int           { return len(p) }
 func (p PairList) Less(i, j int) bool { return p[i].Value > p[j].Value }
 func (p PairList) Swap(i, j int)      { p[i], p[j] = p[j], p[i] }
+
+func displayPage(w http.ResponseWriter, r *http.Request) {
+	r.ParseForm()
+
+	fmt.Fprintf(w, "Hello & Welcome To My Golang Server to find top ten words")
+}
+
+func text(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("method:", r.Method)
+
+	if r.Method == "GET" {
+		t, _ := template.ParseFiles("form.gtpl")
+		t.Execute(w, nil)
+	} else {
+		r.ParseForm()
+
+		for key, value := range r.Form {
+			fmt.Println("key", key)
+			fmt.Println("val:", s.Join(value, ""))
+			fmt.Fprintf(w, "Top 10 Words:%v", rankByWordCount(countWords(getWordsFrom(s.Join(value, "")))))
+		}
+	}
+
+}
 
 func main() {
 	text := "To be, I am learning Go! go is a nice, nice, nice, nice, nice, language to learn so, so, so, so, so, so, so, as, as, as, as, as, to become best programmer. I got this from a book and it is my input to this test"
