@@ -65,8 +65,7 @@ func text(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("method:", r.Method)
 
 	if r.Method == "GET" {
-		t, _ := template.ParseFiles("form.gtpl")
-		t.Execute(w, nil)
+		render(w, "form.gtpl", nil)
 	} else {
 		r.ParseForm()
 		if len(r.Form["text"][0]) == 0 {
@@ -79,7 +78,16 @@ func text(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 	}
+}
 
+func render(w http.ResponseWriter, filename string, data interface{}) {
+	t, err := template.ParseFiles(filename)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+	if err := t.Execute(w, data); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
 }
 
 func main() {
