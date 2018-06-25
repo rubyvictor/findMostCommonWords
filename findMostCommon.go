@@ -23,12 +23,6 @@ func countWords(words []string) map[string]int {
 	return wordCounts
 }
 
-func consoleOut(orderedWordCounts PairList) {
-	for _, wordCount := range orderedWordCounts {
-		fmt.Printf("%v\n", wordCount)
-	}
-}
-
 func filterPairs(allPairs PairList) PairList {
 	return allPairs[0:10]
 }
