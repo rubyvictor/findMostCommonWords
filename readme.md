@@ -4,15 +4,17 @@ Before cloning this, please take time to set up your Go workspace and the correc
 
 [GOLANG Docs](https://golang.org/doc/code.html#next)
 
-Next, clone this repo with this command:
+Once you have set up your GOPATH, clone this repo with the command:
 
 `git clone https://github.com/rubyvictor/findMostCommonWords.git`
 
-Then, execute the program with the commands, from within your package directory:
+Next:
 
-```go install```
+`$ cd $GOPATH/src/github.com/yourUserName/findMostCommonWords`:
 
-```go run findMostCommon.go message.go```
+`$ go install`
+
+`$ go run findMostCommon.go message.go`
 
 ## View in your browser:
 
