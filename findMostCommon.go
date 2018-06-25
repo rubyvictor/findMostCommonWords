@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"html/template"
+	"log"
 	"net/http"
 	"regexp"
 	"sort"
@@ -79,7 +80,10 @@ func text(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	text := "To be, I am learning Go! go is a nice, nice, nice, nice, nice, language to learn so, so, so, so, so, so, so, as, as, as, as, as, to become best programmer. I got this from a book and it is my input to this test"
-	consoleOut(rankByWordCount(countWords(getWordsFrom(text))))
-
+	http.HandleFunc("/", displayPage)
+	http.HandleFunc("/text", text)
+	err := http.ListenAndServe(":3000", nil)
+	if err != nil {
+		log.Fatal("ListenAndServe:", err)
+	}
 }
