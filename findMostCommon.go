@@ -77,7 +77,7 @@ func text(w http.ResponseWriter, r *http.Request) {
 			for key, value := range r.Form {
 				fmt.Println("key", key)
 				fmt.Println("val:", s.Join(value, ""))
-				fmt.Fprintf(w, "Top 10 Words:%v", rankByWordCount(countWords(getWordsFrom(s.Join(value, "")))))
+				fmt.Fprintf(w, "Top 10 Words:%v", rankByWordCount(countWords(getWordsFrom(msg.Content))))
 			}
 		}
 	}
